@@ -1,6 +1,7 @@
 cc_library(
     name = "getline",
     srcs = ["getline.c"],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(
