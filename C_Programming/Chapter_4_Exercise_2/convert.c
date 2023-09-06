@@ -57,7 +57,7 @@ int parse_int_at_index(char s[], int i) {
 * detected.  
 */
 double atof_with_e(char s[]) {
-    double val, power = 1.0, exponent_scale = 1;
+    double val, power = 1.0;
     int i, sign;
     int exponent_part = 0, exponent_sign = 1;
     int parse_int_at_index(char s[], int i);
@@ -78,7 +78,7 @@ double atof_with_e(char s[]) {
             ++i;
         for (power = 1.0; isdigit(s[i]); ++i) {
             val = 10.0 * val + (s[i] - '0');
-            power *= 10.0;
+            power /= 10.0;
         }
 
         if (s[i] == 'e' || s[i] == 'E') {
@@ -92,12 +92,13 @@ double atof_with_e(char s[]) {
     }
 
     exponent_sign = exponent_part < 0 ? -1 : 1;
-    exponent_part *= exponent_sign; /* flips negative to positive */
+    /* flips negative to positive */
+    exponent_part *= exponent_sign; 
     for (i = 0; i < exponent_part; ++i) {
-        exponent_scale = exponent_sign == 1 ? exponent_scale * 10 : exponent_scale / 10;
+        power = exponent_sign == 1 ? power * 10 : power / 10;
     }
 
-    return (sign * val / power) * exponent_scale;
+    return sign * val * power;
 }
 
 int atoi(char s[]) {
