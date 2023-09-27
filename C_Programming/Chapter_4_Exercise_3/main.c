@@ -9,7 +9,7 @@ void push(double);
 double pop(void);
 
 int main(int argc, char** argv) {
-    int type;
+    int type, mod_op2;
     double op2;
     char s[MAXOP];
 
@@ -34,6 +34,13 @@ int main(int argc, char** argv) {
                 push(pop() / op2);
             else
                 printf("error: zero divisor\n");
+            break;
+        case '%':
+            mod_op2 = (int)pop();            
+            if (mod_op2 != 0.0)
+                push((int)pop() % mod_op2);
+            else
+                printf("error: zero modulo\n");
             break;
         case '\n':
             printf("\t%.8g\n", pop());
