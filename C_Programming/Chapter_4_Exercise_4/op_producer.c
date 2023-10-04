@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 
+/* Special values to signal what 'type' of command was parsed out.  These
+   will be moved to a dedicated header file once that is covered in a later
+   section of the course. */
 #define NUMBER '0'
 #define PEEK 1
 #define SWAP 2
@@ -14,31 +17,36 @@ int getch(void);
 void ungetch(int);
 
 int getop(char s[]) {
-    int i, c, sign = 0;
+    int i = 0, c, sign = 0;
     int op_code = 0;
     
     /* skip leading white space */
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
-    s[1] = '\0';    
+    s[1] = '\0';        
 
-    /* if this not a digit, or a decimal point, or - or + then 
-       return what we parsed (likely * / %) */
-    printf("1\n");
+    /* if the value is not a digit and doesn't look like it is
+       numeric in nature, then attempt to parse out a command */
     if (!isdigit(c) && c != '.' && c != '-' && c != '+') {
-        /* attempt to parse a command */
-
-        /* basic arithmetic operations */
+        /* if 'c' is a basic arithmetic operation, except for +,- then
+           return that value */
         if (c == '*' || c == '/' || c == '%' || c == '\n') 
             return c;
-        i = 0;
+
+        /* keep fetching alpha-numeric values, converting them to lowercase
+           and storing in the string */    
         if (isalnum(c)) 
             while (isalnum(s[++i] = tolower(c = getch())))
                 ;
+        
+        /* perform the string termination part and return the \n back 
+           to the input stream */
         s[i] = '\0';
         if (c != EOF) 
             ungetch(c); 
-        printf("%s\n", s);        
+
+        /* attempt to match the string against known command, if none worked
+           then this is an error command */
         if (strcmp(s, "peek") == 0)
             op_code = PEEK;
         if (strcmp(s, "swap") == 0)
@@ -50,12 +58,11 @@ int getop(char s[]) {
         if (strcmp(s, "debug") == 0)
             op_code = DEBUG;
         if (op_code == 0) 
-            op_code = ERROR;
-        printf("op_code = %d\n", op_code);
+            op_code = ERROR;        
         return op_code; 
-    }    
-        
-    i = 0;        
+    }                
+
+    /* The non-command case is to parse out a numerical value */
 
     /* if we got - or + track it as a 'sign' */
     if (c == '-' || c == '+')

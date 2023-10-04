@@ -38,8 +38,13 @@ double pop() {
     }
 }
 
+/**
+ * Produces the current top value in the stack without altering the state
+ * 
+ * command: peek
+ * return: (double) current top value in the stack
+*/
 double peek() {
-    printf("inside of peek, sp: %d\n", sp);
     if (sp > 0) 
         return val[sp - 1];
     else {
@@ -48,6 +53,13 @@ double peek() {
     }
 }
 
+/**
+ * Duplicates the top value in the stack so that if the top value is x, then 
+ * another x is added to the stack.  Implicitly requires that there is at least
+ * one value value in the stack because it relies on peek.  
+ * 
+ * command: copy
+*/
 void copy() {
     if (sp < MAXVAL) 
         val[sp++] = peek();
@@ -55,10 +67,22 @@ void copy() {
         printf(FULL_STACK_ERROR, peek());
 }
 
+/**
+ * Clears the stack by moving the stack pointer to 0
+ * 
+ * command: clear
+*/
 void clear() {
     sp = 0;
 }
 
+/**
+ * Swaps the top two values in the stack, requires that there are at least two
+ * values in the stack, otherwise doesn't alter the stack and produces an error
+ * message
+ * 
+ * command: swap
+*/
 void swap() {
     double temp1, temp2;
     if (sp < 2) 
@@ -71,8 +95,15 @@ void swap() {
     }
 }
 
+/**
+ * Produces debug output, the command is 'debug'.  This shows the current stack
+ * pointer position as well as the contents of the stack.  
+ * 
+ * command: debug
+*/
 void debug() {
     int i;
+    printf("DEBUG\n");
     printf("sp: %d\n", sp);
     for (i = 0; i < sp; ++i) {
         printf("i[%d] - sp[%g]\n", i, val[i]);

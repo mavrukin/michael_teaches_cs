@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* This is bad style, they are duplicated here because header files were not yet
+   coverd in the text.  The cleanup of this to use header files will be reserved 
+   for a later exercise. */
 #define MAXOP 100
 #define NUMBER '0'
 #define PEEK 1
@@ -10,6 +13,9 @@
 #define DEBUG 5
 #define ERROR -1
 
+/* prototypes of methods that are available at compile time, but are not yet
+   defined in a dedicated header file since header files were not yet covered
+   in the textbook. */
 int getop(char []);
 void push(double);
 double pop(void);
@@ -24,8 +30,7 @@ int main(int argc, char** argv) {
     double op2;
     char s[MAXOP];
 
-    while ((type = getop(s)) != EOF) {
-        printf("type: %d\n", type);
+    while ((type = getop(s)) != EOF) {        
         switch (type) {
         case NUMBER:
             push(atof(s));
