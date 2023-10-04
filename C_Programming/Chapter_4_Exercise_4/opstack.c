@@ -39,8 +39,9 @@ double pop() {
 }
 
 double peek() {
+    printf("inside of peek, sp: %d\n", sp);
     if (sp > 0) 
-        return val[sp];
+        return val[sp - 1];
     else {
         printf("%s", EMPTY_STACK_ERROR);
         return 0.0;
@@ -60,11 +61,21 @@ void clear() {
 
 void swap() {
     double temp1, temp2;
-    if (sp >= 2) 
+    if (sp < 2) 
         printf("error: stack only has %d elements, not enough to swap\n", sp);
-    temp1 = pop();
-    temp2 = pop();
-    push(temp1);
-    push(temp2);
+    else {
+        temp1 = pop();
+        temp2 = pop();
+        push(temp1);
+        push(temp2);
+    }
+}
+
+void debug() {
+    int i;
+    printf("sp: %d\n", sp);
+    for (i = 0; i < sp; ++i) {
+        printf("i[%d] - sp[%g]\n", i, val[i]);
+    }
 }
 

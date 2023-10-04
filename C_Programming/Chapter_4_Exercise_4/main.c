@@ -6,13 +6,18 @@
 #define PEEK 1
 #define SWAP 2
 #define CLEAR 3
-#define DUPLICATE 4
+#define COPY 4
+#define DEBUG 5
 #define ERROR -1
 
 int getop(char []);
 void push(double);
 double pop(void);
 double peek(void);
+void swap();
+void clear();
+void copy();
+void debug();
 
 int main(int argc, char** argv) {
     int type, mod_op2;
@@ -27,6 +32,18 @@ int main(int argc, char** argv) {
             break;
         case PEEK:
             printf("\t%.8g\n", peek());
+            break;
+        case SWAP:
+            swap();
+            break;
+        case CLEAR:
+            clear();
+            break;
+        case COPY:
+            copy();
+            break;
+        case DEBUG:
+            debug();
             break;
         case '+':
             push(pop() + pop());
@@ -53,7 +70,7 @@ int main(int argc, char** argv) {
                 printf("error: modulos of zero\n");
             break;
         case '\n':
-            printf("\t%.8g\n", pop());
+            printf("\t%.8g\n", peek());
             break;
         default:
             printf("error: unknonwn command %s\n", s);

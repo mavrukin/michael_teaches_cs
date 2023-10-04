@@ -6,7 +6,8 @@
 #define PEEK 1
 #define SWAP 2
 #define CLEAR 3
-#define DUPLICATE 4
+#define COPY 4
+#define DEBUG 5
 #define ERROR -1
 
 int getch(void);
@@ -14,6 +15,7 @@ void ungetch(int);
 
 int getop(char s[]) {
     int i, c, sign = 0;
+    int op_code = 0;
     
     /* skip leading white space */
     while ((s[0] = c = getch()) == ' ' || c == '\t')
@@ -34,16 +36,23 @@ int getop(char s[]) {
             while (isalnum(s[++i] = tolower(c = getch())))
                 ;
         s[i] = '\0';
-        printf("%s\n", s);
+        if (c != EOF) 
+            ungetch(c); 
+        printf("%s\n", s);        
         if (strcmp(s, "peek") == 0)
-            return PEEK;
+            op_code = PEEK;
         if (strcmp(s, "swap") == 0)
-            return SWAP;
+            op_code = SWAP;
         if (strcmp(s, "clear") == 0)
-            return CLEAR;
-        if (strcmp(s, "duplicate") == 0)
-            return DUPLICATE;
-        return ERROR;        
+            op_code = CLEAR;
+        if (strcmp(s, "copy") == 0)
+            op_code = COPY;
+        if (strcmp(s, "debug") == 0)
+            op_code = DEBUG;
+        if (op_code == 0) 
+            op_code = ERROR;
+        printf("op_code = %d\n", op_code);
+        return op_code; 
     }    
         
     i = 0;        
